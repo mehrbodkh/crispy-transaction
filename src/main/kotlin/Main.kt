@@ -1,11 +1,12 @@
 const val KEY_NOT_SET = "key not set"
 const val INCORRECT_INPUT = "incorrect input"
+const val NO_TRANSACTION = "no transaction"
 
 fun main() {
     transaction(DataStore())
 }
 
-fun transaction(dataStore: KeyValueStore<String, String>, isTransaction: Boolean = false): KeyValueStore<String, String>? {
+fun transaction(dataStore: KeyValueStore<String, String>, isFirst: Boolean = true): KeyValueStore<String, String>? {
     var internalStore = dataStore.copy()
     while (true) {
         print("> ")
@@ -17,21 +18,9 @@ fun transaction(dataStore: KeyValueStore<String, String>, isTransaction: Boolean
                 Command.GET -> println(internalStore[firstArgument] ?: KEY_NOT_SET)
                 Command.DELETE -> internalStore.remove(firstArgument)
                 Command.COUNT -> println(internalStore.count(firstArgument))
-                Command.BEGIN -> transaction(internalStore, true)?.let { internalStore = it.copy() }
-                Command.ROLLBACK -> {
-                    if (isTransaction)
-                        return null
-                    else {
-                        println("no transaction")
-                    }
-                }
-                Command.COMMIT -> {
-                    if (isTransaction)
-                        return internalStore
-                    else {
-                        println("no transaction")
-                    }
-                }
+                Command.BEGIN -> transaction(internalStore, false)?.let { internalStore = it.copy() }
+                Command.ROLLBACK -> if (isFirst) println(NO_TRANSACTION) else return null
+                Command.COMMIT -> if (isFirst) println(NO_TRANSACTION) else return internalStore
                 Command.EXIT -> return null
                 Command.UNKNOWN -> println(INCORRECT_INPUT)
             }
