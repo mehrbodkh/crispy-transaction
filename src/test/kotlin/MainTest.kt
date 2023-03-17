@@ -126,7 +126,6 @@ class MainTest {
             val output = tapSystemOut {
                 main()
             }
-            println(output)
             assert(
                 output == """
                 > > > > > > 3
