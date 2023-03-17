@@ -6,7 +6,7 @@ fun main() {
     transaction(DataStore())
 }
 
-fun transaction(dataStore: KeyValueStore<String, String>, isFirst: Boolean = true): KeyValueStore<String, String>? {
+fun transaction(dataStore: KeyValueStore<String, String>, isFirstIteration: Boolean = true): KeyValueStore<String, String>? {
     var internalStore = dataStore.copy()
     while (true) {
         print("> ")
@@ -19,8 +19,8 @@ fun transaction(dataStore: KeyValueStore<String, String>, isFirst: Boolean = tru
                 Command.DELETE -> internalStore.remove(firstArgument)
                 Command.COUNT -> println(internalStore.count(firstArgument))
                 Command.BEGIN -> transaction(internalStore, false)?.let { internalStore = it.copy() }
-                Command.ROLLBACK -> if (isFirst) println(NO_TRANSACTION) else return null
-                Command.COMMIT -> if (isFirst) println(NO_TRANSACTION) else return internalStore
+                Command.ROLLBACK -> if (isFirstIteration) println(NO_TRANSACTION) else return null
+                Command.COMMIT -> if (isFirstIteration) println(NO_TRANSACTION) else return internalStore
                 Command.EXIT -> return null
                 Command.UNKNOWN -> println(INCORRECT_INPUT)
             }
