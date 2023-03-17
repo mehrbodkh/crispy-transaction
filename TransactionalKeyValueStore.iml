@@ -28,5 +28,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="io.mockk.jvm" level="project" />
+    <orderEntry type="library" name="github.stefanbirkner.system.lambda" level="project" />
   </component>
 </module>

@@ -32,6 +32,7 @@ fun transaction(dataStore: KeyValueStore<String, String>, isTransaction: Boolean
                         println("no transaction")
                     }
                 }
+                Command.EXIT -> return null
                 Command.UNKNOWN -> println(INCORRECT_INPUT)
             }
         } catch (e: Exception) {

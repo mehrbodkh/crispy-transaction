@@ -7,6 +7,7 @@ enum class Command(val value: String, val numberOfArguments: Int) {
     BEGIN("begin", 0),
     ROLLBACK("rollback", 0),
     COMMIT("commit", 0),
+    EXIT("exit", 0),
     UNKNOWN("unknown", Int.MAX_VALUE),
 }
 
@@ -18,5 +19,6 @@ fun String.toCommand(): Command = when (this.lowercase()) {
     Command.BEGIN.value -> Command.BEGIN
     Command.ROLLBACK.value -> Command.ROLLBACK
     Command.COMMIT.value -> Command.COMMIT
+    Command.EXIT.value -> Command.EXIT
     else -> Command.UNKNOWN
 }
